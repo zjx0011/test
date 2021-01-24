@@ -5,7 +5,7 @@ import VueAxios from 'vue-axios'
 import App from './App.vue'
 
 //根据前端的跨域方式做调整 /a/b : /api/a/b => /a/b 过程中切掉api
-axios.defaults.baseURL = '/api';//接口代理
+//axios.defaults.baseURL = '/api';//接口代理
 axios.defaults.timeout = 8000;//超时
 
 //接口错误拦截
