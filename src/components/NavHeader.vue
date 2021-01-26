@@ -9,9 +9,10 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;">登录</a>
-          <a href="javascript:;">注册</a>
-          <a href="javascript:;" class="my-cart">
+          <a href="javascript:;" v-if="username">{{ username }}</a>
+          <a href="javascript:;" v-if="!username" @click="login()">登录</a>
+          <a href="javascript:;" v-if="username">我的订单</a>
+          <a href="javascript:;" class="my-cart" @click="goToCart()">
             <span class="icon-cart"></span>
             购物车
           </a>
@@ -28,58 +29,17 @@
             <span>小米手机</span>
             <div class="children">
               <ul>
-                <li class="product">
-                  <a href="" target="_black">
+                <li
+                  class="product"
+                  v-for="(item, index) in phoneList"
+                  :key="index"
+                >
+                  <a v-bind:href="'/#/product/' + item.id" target="_black">
                     <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-1.png" alt="" />
+                      <img :src="item.mainImage" alt="item.subtitle" />
                     </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_black">
-                    <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-2.png" alt="" />
-                    </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_black">
-                    <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-3.png" alt="" />
-                    </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_black">
-                    <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-4.png" alt="" />
-                    </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_black">
-                    <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-5.png" alt="" />
-                    </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
-                  </a>
-                </li>
-                <li class="product">
-                  <a href="" target="_black">
-                    <div class="pro-img">
-                      <img src="/imgs/nav-img/nav-6.png" alt="" />
-                    </div>
-                    <div class="pro-name">小米CC9</div>
-                    <div class="pro-price">1799元</div>
+                    <div class="pro-name">{{ item.name }}</div>
+                    <div class="pro-price">{{ item.price }}</div>
                   </a>
                 </li>
               </ul>
@@ -144,7 +104,6 @@
                   </a>
                 </li>
               </ul>
-              png
             </div>
           </div>
           <div class="item-menu">
@@ -168,12 +127,62 @@ export default {
   data() {
     return {
       username: "zjx",
-      phoneList: [],
+      phoneList: [
+        {
+          id: 1,
+          mainImage: "/imgs/nav-img/nav-1.png",
+          name: "小米CC9",
+          price: "￥" + 1779.0 + "元",
+        },
+        {
+          id: 2,
+          mainImage: "/imgs/nav-img/nav-2.png",
+          name: "小米CC9e",
+          price: "￥" + 1299.0 + "元",
+        },
+        {
+          id: 3,
+          mainImage: "/imgs/nav-img/nav-3.png",
+          name: "小米CC 美图定制版",
+          price: "￥" + 2599.0 + "元",
+        },
+        {
+          id: 4,
+          mainImage: "/imgs/nav-img/nav-4.png",
+          name: "小米9",
+          price: "￥" + 2599.0 + "元",
+        },
+        {
+          id: 5,
+          mainImage: "/imgs/nav-img/nav-5.png",
+          name: "小米9 Pro 5G",
+          price: "￥" + 3699.0 + "元",
+        },
+        {
+          id: 6,
+          mainImage: "/imgs/nav-img/nav-6.png",
+          name: "小米MIX Alpha",
+          price: "￥" + 19999.0 + "元",
+        },
+      ],
     };
-  },
-  mounted() {},
+  } /*
+  filters: {
+    //过滤器
+    currency(val) {
+      if (!val) return "0.00";
+      return "￥" + val.toFixed(2) + "元";
+    },
+  },*/,
+  /*
+  mounted() {
+    this.getProductList();
+  } */
   methods: {
-    getProductList() {
+    login() {
+      this.$router.push("/login");
+    },
+    /* getProductList() {
       this.axios
         .get("/products", {
           params: {
@@ -181,7 +190,15 @@ export default {
             //pageSize:6
           },
         })
-        .then((res) => {});
+        .then((res) => {
+          //Math.max(res.list,6);//取前六条
+          if(res.list.length>6){
+            this.phoneList = res.list.slice(0,6)
+          }
+        });
+    },*/
+    goToCart() {
+      this.$router.push("/cart");
     },
   },
 };
