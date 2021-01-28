@@ -30,7 +30,7 @@ export default {
   name: "nav-footer",
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./../assets/scss/config.scss";
 .footer {
   height: 234px;
