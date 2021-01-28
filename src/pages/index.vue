@@ -269,5 +269,8 @@ export default {
       height: 167px;
     }
   }
+  .banner {
+    margin-bottom: 50px;
+  }
 }
 </style>
