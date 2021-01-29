@@ -70,7 +70,9 @@
           <img src="/imgs/banner-1.png" alt="" />
         </a>
       </div>
-      <div class="product-box">
+    </div>
+    <div class="product-box">
+      <div class="container">
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
@@ -81,7 +83,7 @@
           <div class="list-box">
             <div class="list" v-for="(arr, i) in phoneList" :key="i">
               <div class="item" v-for="(item, j) in arr" :key="j">
-                <span>新品</span>
+                <span :class="{ 'new-pro': j % 2 == 0 }">新品</span>
                 <div class="item-img">
                   <img
                     src="http://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5a260090e0e08770b0bd865845a4b4ab.jpg?thumb=1&amp;w=313&amp;h=313&amp;f=webp&amp"
@@ -95,7 +97,6 @@
                 </div>
               </div>
             </div>
-            <div class="list"></div>
           </div>
         </div>
       </div>
@@ -203,11 +204,25 @@ export default {
         },
       ],
       phoneList: [
-        [1, 1, 1, 1],
-        [1, 1, 1, 1],
+        [{}, {}, {}, {}],
+        [{}, {}, {}, {}],
       ],
     };
-  },
+  } /*
+  mounted: {
+    init() {
+      this.axios
+        .get("/product", {
+          params: {
+            categoryId: 100012,
+            pageSize: 8,
+          },
+        })
+        .then((res) => {
+          this.phoneList = [res.list.slice(0, 4)];
+        });
+    },
+  },*/,
 };
 </script>
 <style lang="scss">
@@ -312,11 +327,12 @@ export default {
       height: 21px;
       line-height: 21px;
       color: $colorB;
+      margin-bottom: 20px;
     }
     .wrapper {
       display: flex;
       .banner-left {
-        margin-left: 16px;
+        margin-right: 16px;
         img {
           width: 224px;
           height: 619px;
@@ -336,6 +352,18 @@ export default {
             background-color: $colorG;
             text-align: center;
             span {
+              display: inline-block;
+              width: 67px;
+              height: 24px;
+              font-size: 14px;
+              line-height: 24px;
+              color: $colorG;
+              &.new-pro {
+                background-color: #71cf68;
+              }
+              &.kill-pro {
+                background-color: #e82626;
+              }
             }
           }
           .item-img {
@@ -361,8 +389,8 @@ export default {
               font-weight: bold;
               cursor: pointer;
               &:after {
-                @include bgImg(22px.22px, "/imgs/icon-cart-hover.png");
-                content: "";
+                @include bgImg(22px, 22px, "/imgs/icon-cart-hover.png");
+                content: " ";
                 margin-left: 5px;
                 vertical-align: middle;
               }
