@@ -93,7 +93,7 @@
                 <div class="item-info">
                   <h3>小米9</h3>
                   <p>骁龙855，索尼4800万超广角微距</p>
-                  <p class="price">2999元</p>
+                  <p class="price" @click="addCart(item.id)">2999元</p>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@
       sureText="查看购物车"
       btnType="1"
       modalType="middle"
-      :showModal="true"
+      :showModal="showModal"
     >
       <template v-slot:body><p>商品添加成功</p></template>
     </modal>
@@ -218,12 +218,14 @@ export default {
         [{}, {}, {}, {}],
         [{}, {}, {}, {}],
       ],
+      showModal: false,
     };
   } /*
   mounted(){
     this.init();
-  }
+  }*/,
   methods: {
+    /*
     init() {
       this.axios
         .get("/product", {
@@ -236,8 +238,20 @@ export default {
           res.list=res.list.slice(6,14);
           this.phoneList = [res.list.slice(0, 4),res.list.slice(4,8)];
         });
-    },
-  },*/,
+    },*/
+    /*
+    addCart(id) {
+      this.axios
+        .post("/carts", {
+          productId: id,
+          selected: true,
+        })
+        .then(() => {})
+        .catch((res) => {
+          this.showModal = true;
+        });
+    },*/
+  },
 };
 </script>
 <style lang="scss">
